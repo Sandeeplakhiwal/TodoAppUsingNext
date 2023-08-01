@@ -1,0 +1,18 @@
+.todoList {
+  text-align: center;
+  margin: auto;
+  padding: 2rem;
+  max-width: 600px;
+  .todoListItem {
+    border: 0.5px solid rgb(27, 19, 3);
+    padding: 8px 10px;
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .todoListItemDetails {
+      text-align: left;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  .todoContainer {
+    max-width: 500px;
+    height: 100%;
+    margin: auto;
+    padding-top: 6%;
+    form {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      input {
+        padding: 10px 0.5rem;
+        border-radius: 5px;
+        font-size: medium;
+        font-weight: bold;
+        outline: none;
+        border: 0.5px solid orange;
+      }
+      button {
+        padding: 8px 10px;
+        background-color: black;
+        color: white;
+        font-weight: bolder;
+        font-size: 15px;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+      }
+    }
+  }
+}

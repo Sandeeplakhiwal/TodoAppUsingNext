@@ -1,0 +1,41 @@
+.header {
+  display: flex;
+  flex: 1;
+  background-color: black;
+  justify-content: space-between;
+  height: 8vh;
+  align-items: center;
+  padding: 0 1rem;
+
+  a {
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font: bold;
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+}
+.navMenu {
+  display: flex;
+  align-items: right;
+  gap: 80px;
+}
+.btn {
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: medium;
+  border-radius: 5px;
+  padding: 8px 10px;
+  font: bold;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+}
