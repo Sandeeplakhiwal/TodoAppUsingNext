@@ -5,13 +5,16 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 
-function page() {
+function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(Context);
 
+  const [loading, setLoading] = useState(false);
+
   const loginHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       document.getElementById("loginBtn").disabled = true;
       const res = await fetch("/api/login", {
@@ -27,6 +30,7 @@ function page() {
       const data = await res.json();
       if (data) {
         document.getElementById("loginBtn").disabled = false;
+        setLoading(false);
       }
       if (data && data.success) {
         toast.success(data.message);
@@ -35,6 +39,7 @@ function page() {
       if (data && data.success === false) toast.error(data.message);
     } catch (error) {
       document.getElementById("loginBtn").disabled = false;
+      setLoading(false);
       toast.error(error);
     }
   };
@@ -69,7 +74,7 @@ function page() {
             value={password}
           />
           <button id="loginBtn" type="submit">
-            Login
+            {loading ? "Loading..." : "Login"}
           </button>
           <p>OR</p>
           <Link href={"/signup"}>New User</Link>
@@ -79,9 +84,4 @@ function page() {
   );
 }
 
-export const metadata = {
-  title: "Login",
-  description: "Login page for Todo App Project",
-};
-
-export default page;
+export default Page;

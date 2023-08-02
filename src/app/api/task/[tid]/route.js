@@ -30,9 +30,9 @@ export const PUT = asyncError(async (req, { params }) => {
 export const DELETE = asyncError(async (req, { params }) => {
   connectDB();
   const taskid = params.tid;
-  const theToken = cookies().get("token").value;
+  const theToken = cookies().get("token");
   if (!theToken) return errorHandler(NextResponse, 401, "Not Logged In");
-  const decoded = jwt.verify(theToken, process.env.JWT_SECRET);
+  const decoded = jwt.verify(theToken.value, process.env.JWT_SECRET);
   let task = await Task.findById(taskid);
   const user = await User.findById(decoded._id);
   if (!task) return errorHandler(NextResponse, 404, "Task not found!");

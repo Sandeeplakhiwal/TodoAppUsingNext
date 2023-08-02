@@ -1,22 +1,16 @@
+import { Suspense } from "react";
 import AddTodoForm from "./addTodoForm";
-import { TodoListItem } from "@latest/components/server/serverComponents";
-import Header from "./header";
+import Todos from "./todos";
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div
-      className="container"
-      style={{ backgroundColor: "whitesmoke", height: "92vh" }}
-    >
+    <div className="home">
       <AddTodoForm />
-      <section className="todosContainer">
-        <TodoListItem
-          title="Dance"
-          description="On chamma chamma song"
-          id="sampleId"
-          completed={true}
-        />
-      </section>
+      <Suspense
+        fallback={<div style={{ textAlign: "center" }}>loading...</div>}
+      >
+        <Todos />
+      </Suspense>
     </div>
   );
 }

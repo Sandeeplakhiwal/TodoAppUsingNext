@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { Toaster, toast } from "react-hot-toast";
 import { useState, createContext, useContext, useEffect } from "react";
+import { redirect, useRouter } from "next/navigation";
 
 export const Context = createContext({ user: {} });
 
@@ -28,17 +29,21 @@ export const ContextProvider = ({ children }) => {
 
 export const LogoutBtn = () => {
   const { user, setUser } = useContext(Context);
+  const router = useRouter();
   const logoutHandler = async () => {
     try {
       const res = await fetch("/api/logout");
       const data = await res.json();
       if (data && !data.success) return toast.error(data.message);
-      setUser(data.user);
-      toast.success(data.message);
+      if (data && data.success) {
+        toast.success(data.message);
+        setUser("");
+      }
     } catch (error) {
-      toast.error(data.message);
+      toast.error(error);
     }
   };
+
   return user && user._id ? (
     <button className="btn" onClick={logoutHandler}>
       Logout
@@ -49,10 +54,40 @@ export const LogoutBtn = () => {
 };
 
 export function TodoListItemBtn({ todoId, completed }) {
-  const deleteHandler = (todoId) => {
-    console.log(todoId);
+  const { user } = useContext(Context);
+  const router = useRouter();
+  const deleteHandler = async (todoId) => {
+    try {
+      const res = await fetch(`/api/task/${todoId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data && !data.success) return toast.error(data.message);
+      if (data && data.success) {
+        router.refresh();
+        toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error(error);
+    }
   };
-  const [checked, setChecked] = useState(false);
+
+  const updateHandler = async (todoId) => {
+    try {
+      const res = await fetch(`/api/task/${todoId}`, {
+        method: "PUT",
+      });
+      const data = await res.json();
+      if (data && !data.success) return toast.error(data.message);
+      if (data && data.success) {
+        router.refresh();
+        toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   return (
     <div
       className="todoListItemBtn"
@@ -67,8 +102,7 @@ export function TodoListItemBtn({ todoId, completed }) {
         type={"checkbox"}
         checked={completed}
         style={{ width: "20px", height: "20px", margin: "auto" }}
-        onChange={() => setChecked(!checked)}
-        onClick={() => setChecked(!checked)}
+        onChange={() => updateHandler(todoId)}
       />
       <button
         type={"button"}

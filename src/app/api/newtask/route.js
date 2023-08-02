@@ -23,5 +23,9 @@ export const POST = asyncError(async (req) => {
     description,
     user: decoded._id,
   });
-  return NextResponse.json({ success: true, task });
+  return NextResponse.json({
+    success: true,
+    task,
+    message: "Task Created Successfully",
+  });
 });

@@ -5,14 +5,17 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { redirect } from "next/navigation";
 
-function page() {
+function Page() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(Context);
 
+  const [loading, setLoading] = useState(false);
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await fetch("/api/signup", {
         method: "POST",
@@ -26,12 +29,20 @@ function page() {
         },
       });
       const data = await res.json();
-      if (data && !data.success) toast.error(data.message);
+      if (data && !data.success) {
+        setLoading(false);
+        toast.error(data.message);
+      }
       if (data && data.success) {
+        setLoading(false);
+        setEmail("");
+        setPassword("");
+        setName("");
         toast.success(data.message);
         setUser(data.user);
       }
     } catch (error) {
+      setLoading(false);
       toast.error(error);
     }
   };
@@ -71,7 +82,7 @@ function page() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit">Signup</button>
+          <button type="submit">{loading ? "Loading..." : "Signup"}</button>
           <p>OR</p>
           <Link href={"/login"}>Login into existing account</Link>
         </form>
@@ -80,9 +91,4 @@ function page() {
   );
 }
 
-export const metadata = {
-  title: "Signup",
-  description: "Signup page for Todo App Project",
-};
-
-export default page;
+export default Page;

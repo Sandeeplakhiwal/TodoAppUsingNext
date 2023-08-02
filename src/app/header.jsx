@@ -2,17 +2,17 @@ import Link from "next/link";
 import React from "react";
 import { LogoutBtn } from "../components/client/client";
 
-function header() {
+function Header() {
   return (
     <div className="header">
-      <Link href={"/"}>DearTodo</Link>
+      <h3>DearTodo :)</h3>
       <div className="navMenu">
         <Link href={"/"}>Home</Link>
-        <Link href={"/about"}>About</Link>
+        <Link href={"/profile"}>Profile</Link>
         <LogoutBtn />
       </div>
     </div>
   );
 }
 
-export default header;
+export default Header;
