@@ -50,8 +50,8 @@ function AddTodoForm() {
   }
 
   return (
-    <main className="container">
-      <section className="todoContainer">
+    <main className="form_container">
+      <section className="todo_container">
         <form onSubmit={sumbitHandler}>
           <input
             type={"text"}

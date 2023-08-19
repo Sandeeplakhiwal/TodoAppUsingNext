@@ -2,6 +2,7 @@ import "./globals.scss";
 import "../styles/header.scss";
 import "../styles/todoList.scss";
 import "../styles/login.scss";
+import "../styles/profile.scss";
 import { Inter } from "next/font/google";
 import Header from "./header";
 import { ContextProvider } from "@latest/components/client/client";

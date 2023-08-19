@@ -45,7 +45,7 @@ export const LogoutBtn = () => {
   };
 
   return user && user._id ? (
-    <button className="btn" onClick={logoutHandler}>
+    <button className="logout_btn" onClick={logoutHandler}>
       Logout
     </button>
   ) : (

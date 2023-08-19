@@ -4,25 +4,39 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
+import { loginSchema } from "@latest/schema";
+import { useFormik } from "formik";
 
 function Page() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { user, setUser } = useContext(Context);
 
   const [loading, setLoading] = useState(false);
 
-  const loginHandler = async (e) => {
-    e.preventDefault();
+  // Defined Initial Values of FormData
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+  };
+
+  // Using Formik to handle Form Validation
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: loginSchema,
+      onSubmit: (values, action) => {
+        loginHandler(values);
+        action.resetForm();
+      },
+    });
+
+  const loginHandler = async (formData) => {
     setLoading(true);
     try {
       document.getElementById("loginBtn").disabled = true;
       const res = await fetch("/api/login", {
         method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
         },
@@ -58,24 +72,40 @@ function Page() {
         >
           Login
         </h1>
-        <form onSubmit={loginHandler}>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="Email" />
           <input
             type={"email"}
             placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            name="email"
+            id="email"
+            value={values.email}
+            onBlur={handleBlur}
+            onChange={handleChange}
           />
+          {errors.email && touched.email ? (
+            <p className="input-err-p">{errors.email}</p>
+          ) : null}
+
           <label htmlFor="Password" />
+
           <input
             type={"password"}
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            name="password"
+            id="password"
+            value={values.password}
+            onBlur={handleBlur}
+            onChange={handleChange}
           />
+          {errors.password && touched.password ? (
+            <p className="input-err-p">{errors.password}</p>
+          ) : null}
+
           <button id="loginBtn" type="submit">
             {loading ? "Loading..." : "Login"}
           </button>
+
           <p>OR</p>
           <Link href={"/signup"}>New User</Link>
         </form>

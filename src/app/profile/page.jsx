@@ -7,9 +7,13 @@ function Page() {
   const { user } = useContext(Context);
   if (!user._id) return redirect("/login");
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>Dear {user.name}</h1>
-      <p style={{ textAlign: "center" }}>{user.email}</p>
+    <div className="profile">
+      <section>
+        <main>
+          <h1 className="profile_username">Dear {user.name}</h1>
+          <p className="profile_useremail">{user.email}</p>
+        </main>
+      </section>
     </div>
   );
 }
